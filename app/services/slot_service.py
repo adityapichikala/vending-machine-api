@@ -31,6 +31,8 @@ def delete_slot(db: Session, slot_id: str) -> None:
     slot = get_slot_by_id(db, slot_id)
     if not slot:
         raise ValueError("slot_not_found")
+    if slot.current_item_count > 0:
+        raise ValueError("slot_has_items")
     db.delete(slot)
     db.commit()
 
